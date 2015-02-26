@@ -19,6 +19,9 @@
 
   <!-- Other module inherits                                      -->
 
+  <!-- For sliders -->
+  <inherits name="com.kiouri.sliderbar.SliderBarMVP" />
+
   <!-- Specify the app entry point class.                         -->
   <entry-point class='com.wissolsoft.smarthouse.client.ControllingHome'/>
 
