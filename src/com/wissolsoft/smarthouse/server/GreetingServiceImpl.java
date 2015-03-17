@@ -48,10 +48,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
     }
 
     @Override
-    public String setLight1(short value) {
+    public String setLight1(short value) throws Exception {
         final HomeController homeController = new HomeControllerImpl();
         homeController.setLights(LightsLocation.LIVING_ROOM_MAIN, value);
-        // TODO Auto-generated method stub
-        return "set lights in the living room to " + value;
+        return "set lights to " + value;
     }
 }
