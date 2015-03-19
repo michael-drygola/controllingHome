@@ -8,7 +8,7 @@
   <!-- Servlets -->
   <servlet>
     <servlet-name>greetServlet</servlet-name>
-    <servlet-class>com.wissolsoft.smarthouse.server.GreetingServiceImpl</servlet-class>
+    <servlet-class>com.wissolsoft.smarthouse.server.MainServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>

@@ -1,23 +1,8 @@
 package com.wissolsoft.smarthouse.server;
 
+import com.wissolsoft.smarthouse.shared.LightsLocation;
+
 public interface HomeController {
-
-    enum LightsLocation {
-        BATHROOM(1),
-        KITCHEN(2),
-        LIVING_ROOM_BACK(3),
-        LIVING_ROOM_MAIN(4);
-
-        int id;
-
-        private LightsLocation(int id) {
-			this.id = id;
-		}
-
-        public int getId() {
-			return id;
-		}
-    }
 
     enum ThermometerLocation {
         OUTER(1),

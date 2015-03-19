@@ -1,16 +1,16 @@
 package com.wissolsoft.smarthouse.server;
 
-import com.wissolsoft.smarthouse.client.GreetingService;
-import com.wissolsoft.smarthouse.server.HomeController.LightsLocation;
-import com.wissolsoft.smarthouse.shared.FieldVerifier;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.wissolsoft.smarthouse.client.MainService;
+import com.wissolsoft.smarthouse.shared.FieldVerifier;
+import com.wissolsoft.smarthouse.shared.LightsLocation;
 
 /**
  * The server side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
-public class GreetingServiceImpl extends RemoteServiceServlet implements
-        GreetingService {
+public class MainServiceImpl extends RemoteServiceServlet implements
+        MainService {
 
     public String greetServer(String input) throws IllegalArgumentException {
         // Verify that the input is valid.
@@ -48,9 +48,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
     }
 
     @Override
-    public String setLight1(short value) throws Exception {
+    public Short setLight(LightsLocation location, short value) throws Exception {
         final HomeController homeController = new HomeControllerImpl();
-        homeController.setLights(LightsLocation.LIVING_ROOM_MAIN, value);
-        return "set lights to " + value;
+        homeController.setLights(location, value);
+        return value;
     }
 }

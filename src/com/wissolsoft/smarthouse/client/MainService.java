@@ -2,13 +2,14 @@ package com.wissolsoft.smarthouse.client;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.wissolsoft.smarthouse.shared.LightsLocation;
 
 /**
  * The client side stub for the RPC service.
  */
 @RemoteServiceRelativePath("greet")
-public interface GreetingService extends RemoteService {
+public interface MainService extends RemoteService {
     String greetServer(String name) throws IllegalArgumentException;
 
-    String setLight1(short value) throws Exception;
+    Short setLight(LightsLocation location, short value) throws Exception;
 }

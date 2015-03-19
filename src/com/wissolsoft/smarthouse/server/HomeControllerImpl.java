@@ -10,6 +10,8 @@ import java.net.URL;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.wissolsoft.smarthouse.shared.LightsLocation;
+
 public class HomeControllerImpl implements HomeController {
 
     private static final Log LOGGER = LogFactory.getLog(HomeControllerImpl.class);
