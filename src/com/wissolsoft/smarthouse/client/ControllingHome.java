@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.kiouri.sliderbar.client.event.BarValueChangedEvent;
 import com.kiouri.sliderbar.client.event.BarValueChangedHandler;
 import com.kiouri.sliderbar.client.solution.simplehorizontal.SliderBarSimpleHorizontal;
+import com.wissolsoft.smarthouse.client.LightsButton.LightsValueChangedListener;
 import com.wissolsoft.smarthouse.shared.LightsLocation;
 
 /**
@@ -51,106 +52,34 @@ public class ControllingHome implements EntryPoint {
         sendButton.addStyleName("sendButton");
         final Label errorLabel = new Label();
 
-        final SliderBarSimpleHorizontal slider = new SliderBarSimpleHorizontal(100, "300px", true);
-        slider.setStylePrimaryName("slider");
 
-        // Create the popup dialog box
-        final DialogBox dialogBox = new DialogBox();
-        dialogBox.setText("Remote Procedure Call");
-        dialogBox.setAnimationEnabled(true);
-        dialogBox.setGlassStyleName("glass");
-        dialogBox.setGlassEnabled(true);
-        final Button closeButton = new Button("Close");
-        // We can set the id of a widget by accessing its Element
-        closeButton.getElement().setId("closeButton");
-        final Label textToServerLabel = new Label();
-        final HTML serverResponseLabel = new HTML();
-        VerticalPanel dialogVPanel = new VerticalPanel();
-        dialogVPanel.addStyleName("dialogVPanel");
-        dialogVPanel.add(new HTML("<b>Adjust lights in the main room</b><br>"));
-        dialogVPanel.add(textToServerLabel);
-        dialogVPanel.add(slider);
-        dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
-        dialogVPanel.add(closeButton);
-        dialogBox.setWidget(dialogVPanel);
-
-        // Add a handler to close the DialogBox
-        closeButton.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                dialogBox.hide();
-            }
-        });
+        final LightsButton lightsButtonMainRoom = new LightsButton();
+        lightsButtonMainRoom.AddLightesValueChangedListener(new LightsValueChangedListener() {
+			@Override
+			public void onLightsValueChanged(short value) {
+                service.setLight(LightsLocation.LIVING_ROOM_MAIN, value, new AsyncCallback<Short>() {
+                    @Override
+                    public void onSuccess(Short result) {
+                    	errorLabel.setText(result.toString());
+                    }
+                    @Override
+                    public void onFailure(Throwable caught) {
+                    	errorLabel.setText(caught.toString());
+                    }
+                });
+                //FIXME this should be in callback
+                processLightsChanged(ROOM_MAIN, value);
+			}
+		});
 
 
-        final ToggleButton lightsButton = new ToggleButton(new Image("images/lights_off.png"), new Image("images/lights_on.png"));
-        final Timer lightsButtonPressedTimer = new Timer() {
-			@Override
-			public void run() {
-                dialogBox.setText("Loghts button hold");
-                serverResponseLabel.setHTML("OLOLO");
-                dialogBox.center();
-                dialogBox.setPopupPosition(lightsButton.getAbsoluteLeft(), lightsButton.getAbsoluteTop());;
-                dialogBox.show();
-                closeButton.setFocus(true);
-			}
-		};
-        lightsButton.addStyleName("lightsButton");
-        lightsButton.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				short lightValue = event.getValue() ? (short)1023 : 0;
-				service.setLight(LightsLocation.LIVING_ROOM_MAIN, lightValue, null);
-				//FIXME this should be in callback
-				processLightsChanged(ROOM_MAIN, lightValue);
-			}
-		});
-        lightsButton.addMouseDownHandler(new MouseDownHandler() {
-			@Override
-			public void onMouseDown(MouseDownEvent event) {
-				lightsButtonPressedTimer.schedule(1000);
-			}
-		});
-        lightsButton.addTouchStartHandler(new TouchStartHandler() {
-			@Override
-			public void onTouchStart(TouchStartEvent event) {
-				lightsButtonPressedTimer.schedule(1000);
-			}
-		});
-        lightsButton.addMouseUpHandler(new MouseUpHandler() {
-			@Override
-			public void onMouseUp(MouseUpEvent event) {
-				lightsButtonPressedTimer.cancel();
-			}
-		});
-        lightsButton.addTouchEndHandler(new TouchEndHandler() {
-			@Override
-			public void onTouchEnd(TouchEndEvent event) {
-				lightsButtonPressedTimer.cancel();
-			}
-		});
-        RootPanel.get(ROOM_MAIN).add(lightsButton);
+        RootPanel.get(ROOM_MAIN).add(lightsButtonMainRoom);
 
         // Add the nameField and sendButton to the RootPanel
         // Use RootPanel.get() to get the entire body element
         RootPanel.get("sendButtonContainer").add(sendButton);
         RootPanel.get("errorLabelContainer").add(errorLabel);
 
-        slider.addBarValueChangedHandler(new BarValueChangedHandler() {
-            @Override
-            public void onBarValueChanged(BarValueChangedEvent event) {
-                service.setLight(LightsLocation.LIVING_ROOM_MAIN, (short)event.getValue(), new AsyncCallback<Short>() {
-                    @Override
-                    public void onSuccess(Short result) {
-                    	errorLabel.setText(result.toString());
-                    }
-
-                    @Override
-                    public void onFailure(Throwable caught) {
-                    	errorLabel.setText(caught.toString());
-                    }
-                });
-            }
-        });
     }
 
     private void processLightsChanged(String roomName, short value) {
