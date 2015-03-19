@@ -121,7 +121,7 @@ public class LightsButton extends ToggleButton {
 		});
 	}
 
-	public void AddLightesValueChangedListener(final LightsValueChangedListener l) {
+	public void addLightsValueChangedListener(final LightsValueChangedListener l) {
 		listeners.add(l);
 	}
 

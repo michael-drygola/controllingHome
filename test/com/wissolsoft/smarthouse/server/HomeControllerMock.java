@@ -3,9 +3,11 @@ package com.wissolsoft.smarthouse.server;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.wissolsoft.smarthouse.shared.LightsLocation;
+
 public class HomeControllerMock implements HomeController {
 
-    private final Map<LightsLocation, Short> lights = new HashMap<HomeController.LightsLocation, Short>();
+    private final Map<LightsLocation, Short> lights = new HashMap<LightsLocation, Short>();
 
     @Override
     public void setLights(LightsLocation lightsLocation, short value) {
