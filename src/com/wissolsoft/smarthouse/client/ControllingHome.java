@@ -21,7 +21,7 @@ public class ControllingHome implements EntryPoint {
 
     private static final String ROOM_MAIN = "livingroom";
     private static final String ROOM_KITCHEN = "kitchen";
-
+    private static final String ROOM_BATHROOM = "bathroom";
 
     final Label errorLabel = new Label();
 
@@ -43,19 +43,35 @@ public class ControllingHome implements EntryPoint {
                 changeLights(LightsLocation.LIVING_ROOM_MAIN, value, ROOM_MAIN);
             }
         });
-
-
         RootPanel.get(ROOM_MAIN).add(lightsButtonMainRoom);
+
+        final LightsButton lightsButtonKitchen = new LightsButton();
+        lightsButtonKitchen.addLightsValueChangedListener(new LightsValueChangedListener() {
+            @Override
+            public void onLightsValueChanged(short value) {
+                changeLights(LightsLocation.KITCHEN, value, ROOM_KITCHEN);
+            }
+        });
+        RootPanel.get(ROOM_KITCHEN).add(lightsButtonKitchen);
+
+        final LightsButton lightsButtonBathroom = new LightsButton();
+        lightsButtonBathroom.addLightsValueChangedListener(new LightsValueChangedListener() {
+            @Override
+            public void onLightsValueChanged(short value) {
+                changeLights(LightsLocation.BATHROOM, value, ROOM_BATHROOM);
+            }
+        });
+        RootPanel.get(ROOM_BATHROOM).add(lightsButtonBathroom);
 
         // Add the nameField and sendButton to the RootPanel
         // Use RootPanel.get() to get the entire body element
         RootPanel.get("sendButtonContainer").add(sendButton);
         RootPanel.get("errorLabelContainer").add(errorLabel);
-
     }
 
+
     private void changeLights(LightsLocation location, short value, String roomName) {
-        service.setLight(LightsLocation.LIVING_ROOM_MAIN, value, new AsyncCallback<Short>() {
+        service.setLight(location, value, new AsyncCallback<Short>() {
             @Override
             public void onSuccess(Short result) {
                 errorLabel.setText(result.toString());
@@ -66,11 +82,10 @@ public class ControllingHome implements EntryPoint {
             }
         });
         //FIXME this should be in callback
-        processLightsChanged(ROOM_MAIN, value);
+        processLightsChanged(roomName, value);
     }
 
     private void processLightsChanged(String roomName, short value) {
-        //TODO add support of many rooms
         if(value > 0) {
             RootPanel.get(roomName).addStyleName("room-shiny");
         } else {

@@ -44,18 +44,35 @@
 
 .lightsButton {
   position: absolute;
-  top: 10%;
-  left: 10%;
+  top: 15px;
+  left: 15px;
 }
 
 .room {
   background: rgba(0, 0, 100, 0.5);
-  border: 1px solid red;
+  /* border: 1px solid maroon; */
   position: absolute;
 }
 
 .room-shiny {
   background: rgba(100, 100, 0, 0.4);
+}
+
+.hotfloor {
+  background: rgba(150, 0, 0, 0.4);
+  /* border: 1px solid red; */
+  position: absolute;
+}
+
+.hotfloor span {
+  display: inline-block;
+  text-align: center;
+  margin-top: 50%;
+  width: 100%;
+  font-size: 20pt;
+  font-family: arial;
+  font-weight: bold;
+  color: orange;
 }
 
 #bathroom {
@@ -65,11 +82,39 @@
   right: 65%;
 }
 
+#bathroom-hotfloor {
+  top: 20%;
+  bottom: 32%;
+  left: 49%;
+  right: 3%;
+}
+
+#balcony {
+  top: 5%;
+  bottom: 84%;
+  left: 15%;
+  right: 57%;
+}
+
+#hall {
+  top: 58%;
+  bottom: 4%;
+  left: 37%;
+  right: 52%;
+}
+
 #kitchen {
   top: 21%;
   bottom: 48%;
   left: 15%;
   right: 52%;
+}
+
+#kitchen-hotfloor {
+  top: 27%;
+  bottom: 2%;
+  left: 40%;
+  right: 2%;
 }
 
 #livingroom {
