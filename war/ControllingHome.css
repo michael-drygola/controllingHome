@@ -43,14 +43,15 @@
 }
 
 .lightsButton {
-  position: absolute;
-  top: 15px;
-  left: 15px;
+  display: inline-block;
+  margin: 5px !important;
 }
+
+
 
 .room {
   background: rgba(0, 0, 100, 0.5);
-  /* border: 1px solid maroon; */
+  border: 1px solid maroon;
   position: absolute;
 }
 
@@ -64,7 +65,7 @@
   position: absolute;
 }
 
-.hotfloor span {
+.hotfloor-text {
   display: inline-block;
   text-align: center;
   margin-top: 50%;
@@ -153,7 +154,13 @@
   color: red;
 }
 
-/** Set ids using widget.getElement().setId("idOfElement") */
-#closeButton {
-  margin: 15px 6px 6px;
+.hotfloor-dialog-label {
+  font-size: 20pt;
+  font-family: arial;
+  font-weight: bold;
+  color: orange;
+}
+
+.closeButton {
+  margin: 15px 6px 6px !important;
 }

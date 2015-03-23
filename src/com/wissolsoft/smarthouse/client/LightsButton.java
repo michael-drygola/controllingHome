@@ -29,13 +29,13 @@ import com.kiouri.sliderbar.client.solution.simplehorizontal.SliderBarSimpleHori
 
 public class LightsButton extends ToggleButton {
 
-	public interface LightsValueChangedListener {
-		public void onLightsValueChanged(short value);
-	}
+    public interface LightsValueChangedListener {
+        public void onLightsValueChanged(short value);
+    }
 
-	private List<LightsValueChangedListener> listeners = new ArrayList<LightsValueChangedListener>();
+    private List<LightsValueChangedListener> listeners = new ArrayList<LightsValueChangedListener>();
 
-	public LightsButton() {
+    public LightsButton() {
         super(new Image("images/lights_off.png"), new Image("images/lights_on.png"));
 
         final SliderBarSimpleHorizontal slider = new SliderBarSimpleHorizontal(100, "300px", true);
@@ -43,15 +43,16 @@ public class LightsButton extends ToggleButton {
 
         // Create the popup dialog box
         final DialogBox dialogBox = new DialogBox();
-        dialogBox.setText("Remote Procedure Call");
+        dialogBox.setText("Loghts button hold");
         dialogBox.setAnimationEnabled(true);
         dialogBox.setGlassStyleName("glass");
         dialogBox.setGlassEnabled(true);
+        dialogBox.setAutoHideEnabled(true);
+
         final Button closeButton = new Button("Close");
         // We can set the id of a widget by accessing its Element
         closeButton.getElement().setId("closeButton");
         final Label textToServerLabel = new Label();
-        final HTML serverResponseLabel = new HTML();
         VerticalPanel dialogVPanel = new VerticalPanel();
         dialogVPanel.addStyleName("dialogVPanel");
         dialogVPanel.add(new HTML("<b>Adjust lights in the main room</b><br>"));
@@ -72,63 +73,61 @@ public class LightsButton extends ToggleButton {
         slider.addBarValueChangedHandler(new BarValueChangedHandler() {
             @Override
             public void onBarValueChanged(BarValueChangedEvent event) {
-            	notifyAllListeners((short)event.getValue());
+                notifyAllListeners((short)event.getValue());
             }
         });
 
         final Timer lightsButtonPressedTimer = new Timer() {
-			@Override
-			public void run() {
-                dialogBox.setText("Loghts button hold");
-                serverResponseLabel.setHTML("OLOLO");
+            @Override
+            public void run() {
                 //dialogBox.center();
                 dialogBox.setPopupPosition(getAbsoluteLeft(), getAbsoluteTop());;
                 dialogBox.show();
                 closeButton.setFocus(true);
-			}
-		};
+            }
+        };
         addStyleName("lightsButton");
         addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				short lightValue = event.getValue() ? (short)1023 : 0;
-				notifyAllListeners(lightValue);
-			}
-		});
+            @Override
+            public void onValueChange(ValueChangeEvent<Boolean> event) {
+                short lightValue = event.getValue() ? (short)1023 : 0;
+                notifyAllListeners(lightValue);
+            }
+        });
         addMouseDownHandler(new MouseDownHandler() {
-			@Override
-			public void onMouseDown(MouseDownEvent event) {
-				lightsButtonPressedTimer.schedule(1000);
-			}
-		});
+            @Override
+            public void onMouseDown(MouseDownEvent event) {
+                lightsButtonPressedTimer.schedule(1000);
+            }
+        });
         addTouchStartHandler(new TouchStartHandler() {
-			@Override
-			public void onTouchStart(TouchStartEvent event) {
-				lightsButtonPressedTimer.schedule(1000);
-			}
-		});
+            @Override
+            public void onTouchStart(TouchStartEvent event) {
+                lightsButtonPressedTimer.schedule(1000);
+            }
+        });
         addMouseUpHandler(new MouseUpHandler() {
-			@Override
-			public void onMouseUp(MouseUpEvent event) {
-				lightsButtonPressedTimer.cancel();
-			}
-		});
+            @Override
+            public void onMouseUp(MouseUpEvent event) {
+                lightsButtonPressedTimer.cancel();
+            }
+        });
         addTouchEndHandler(new TouchEndHandler() {
-			@Override
-			public void onTouchEnd(TouchEndEvent event) {
-				lightsButtonPressedTimer.cancel();
-			}
-		});
-	}
+            @Override
+            public void onTouchEnd(TouchEndEvent event) {
+                lightsButtonPressedTimer.cancel();
+            }
+        });
+    }
 
-	public void addLightsValueChangedListener(final LightsValueChangedListener l) {
-		listeners.add(l);
-	}
+    public void addLightsValueChangedListener(final LightsValueChangedListener l) {
+        listeners.add(l);
+    }
 
-	private void notifyAllListeners(short value) {
-		for (LightsValueChangedListener l : listeners) {
-			l.onLightsValueChanged(value);
-		}
-	}
+    private void notifyAllListeners(short value) {
+        for (LightsValueChangedListener l : listeners) {
+            l.onLightsValueChanged(value);
+        }
+    }
 
 }

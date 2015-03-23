@@ -9,16 +9,14 @@ import com.wissolsoft.smarthouse.shared.LightsLocation;
  * The server side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
-public class MainServiceImpl extends RemoteServiceServlet implements
-        MainService {
+public class MainServiceImpl extends RemoteServiceServlet implements MainService {
 
     public String greetServer(String input) throws IllegalArgumentException {
         // Verify that the input is valid.
         if (!FieldVerifier.isValidName(input)) {
             // If the input is not valid, throw an IllegalArgumentException back to
             // the client.
-            throw new IllegalArgumentException(
-                    "Name must be at least 4 characters long");
+            throw new IllegalArgumentException("Name must be at least 4 characters long");
         }
 
         String serverInfo = getServletContext().getServerInfo();
@@ -28,8 +26,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements
         input = escapeHtml(input);
         userAgent = escapeHtml(userAgent);
 
-        return "Hello, " + input + "!<br><br>I am running " + serverInfo
-                + ".<br><br>It looks like you are using:<br>" + userAgent;
+        return "Hello, " + input + "!<br><br>I am running " + serverInfo + ".<br><br>It looks like you are using:<br>" + userAgent;
     }
 
     /**
@@ -43,8 +40,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements
         if (html == null) {
             return null;
         }
-        return html.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
-                .replaceAll(">", "&gt;");
+        return html.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.wissolsoft.smarthouse.client.HotfloorButton.HotfloorValueChangedListener;
 import com.wissolsoft.smarthouse.client.LightsButton.LightsValueChangedListener;
 import com.wissolsoft.smarthouse.shared.LightsLocation;
 
@@ -22,6 +23,8 @@ public class ControllingHome implements EntryPoint {
     private static final String ROOM_MAIN = "livingroom";
     private static final String ROOM_KITCHEN = "kitchen";
     private static final String ROOM_BATHROOM = "bathroom";
+
+    private static final String HOTFLOOR_KITCHEN = "kitchen-hotfloor";
 
     final Label errorLabel = new Label();
 
@@ -53,6 +56,18 @@ public class ControllingHome implements EntryPoint {
             }
         });
         RootPanel.get(ROOM_KITCHEN).add(lightsButtonKitchen);
+        final HotfloorButton hotfloorButtonKitchen = new HotfloorButton("Тепла підлога в кухні");
+        RootPanel.get(ROOM_KITCHEN).add(hotfloorButtonKitchen);
+        final Label hotfloorKitchen = new Label("00°");
+        hotfloorKitchen.setStylePrimaryName("hotfloor-text");
+        RootPanel.get(HOTFLOOR_KITCHEN).add(hotfloorKitchen);
+        hotfloorButtonKitchen.addHotfloorValueChangedListener(new HotfloorValueChangedListener() {
+            @Override
+            public void onHotfloorValueChanged(short value) {
+                //TODO send this to server
+                hotfloorKitchen.setText(String.valueOf(value) + "°");
+            }
+        });
 
         final LightsButton lightsButtonBathroom = new LightsButton();
         lightsButtonBathroom.addLightsValueChangedListener(new LightsValueChangedListener() {
